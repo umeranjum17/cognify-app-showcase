@@ -66,6 +66,7 @@
             align-items: center;
             justify-content: center;
             padding: 80px 20px 80px 20px;
+            width: 100%;
         }
 
         .slider {
@@ -79,6 +80,7 @@
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            box-sizing: border-box;
         }
 
         /* Slides */
@@ -95,6 +97,7 @@
             align-items: center;
             justify-content: center;
             padding: 40px;
+            box-sizing: border-box;
         }
 
         .slide-content {
@@ -162,6 +165,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            max-width: 100%;
         }
 
         .phone {
@@ -303,24 +307,37 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .header {
-                top: 15px;
+                top: 10px;
+            }
+
+            .logo {
+                width: 32px;
+                height: 32px;
             }
 
             .app-name {
-                font-size: 20px;
+                font-size: 18px;
+            }
+
+            .tagline {
+                font-size: 10px;
             }
 
             .slider-wrapper {
-                padding: 70px 15px 70px 15px;
+                padding: 60px 10px 60px 10px;
+            }
+
+            .slider {
+                border-radius: 15px;
             }
 
             .slide {
-                padding: 20px;
+                padding: 15px;
             }
 
             .slide-content {
                 flex-direction: column;
-                gap: 30px;
+                gap: 20px;
                 text-align: center;
             }
 
@@ -328,46 +345,96 @@
                 max-width: 100%;
             }
 
+            .badge {
+                font-size: 9px;
+                padding: 4px 12px;
+                margin-bottom: 10px;
+            }
+
             .slide-title {
-                font-size: 24px;
+                font-size: 20px;
+                margin-bottom: 8px;
             }
 
             .slide-desc {
-                font-size: 14px;
+                font-size: 13px;
+                margin-bottom: 15px;
+                line-height: 1.4;
             }
 
-            .features li {
-                font-size: 13px;
-                text-align: left;
+            .features {
+                display: none; /* Hide features list on mobile to save space */
             }
 
             .phone {
-                width: 200px;
-                height: 400px;
+                width: 160px;
+                height: 320px;
+                padding: 4px;
+                border-radius: 18px;
+            }
+
+            .phone::before {
+                width: 30px;
+                height: 2px;
+                top: 10px;
+            }
+
+            .screen {
+                border-radius: 15px;
             }
 
             .arrow-btn {
-                width: 35px;
-                height: 35px;
-                font-size: 16px;
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
             }
 
             .arrow-btn.prev {
-                left: 10px;
+                left: 5px;
             }
 
             .arrow-btn.next {
-                right: 10px;
+                right: 5px;
+            }
+
+            .nav-controls {
+                bottom: 10px;
+                gap: 15px;
             }
 
             .nav-btn {
-                padding: 6px 12px;
-                font-size: 12px;
+                padding: 5px 10px;
+                font-size: 11px;
+            }
+
+            .dots {
+                gap: 6px;
+            }
+
+            .dot {
+                width: 8px;
+                height: 8px;
             }
 
             .privacy-link {
-                bottom: 10px;
-                right: 10px;
+                bottom: 8px;
+                right: 8px;
+                font-size: 10px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .phone {
+                width: 140px;
+                height: 280px;
+            }
+
+            .slide-title {
+                font-size: 18px;
+            }
+
+            .slide-desc {
+                font-size: 12px;
             }
         }
 
