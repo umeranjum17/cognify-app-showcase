@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Selection - Cognify</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+            color: #0c4a6e;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px 60px;
+            position: relative;
+        }
+
+        .back-navigation {
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            z-index: 10;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            color: #0c4a6e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(-4px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 120px;
+            min-height: 80vh;
+        }
+
+        .content-left {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .page-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(14, 116, 144, 0.1);
+            border: 1px solid rgba(14, 116, 144, 0.2);
+            border-radius: 50px;
+            padding: 12px 28px;
+            margin-bottom: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #0e7490;
+        }
+
+        .main-title {
+            font-size: 72px;
+            font-weight: 100;
+            background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 32px;
+            line-height: 1.0;
+            letter-spacing: -3px;
+        }
+
+        .main-subtitle {
+            font-size: 24px;
+            color: #075985;
+            margin-bottom: 40px;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .model-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        .model-category {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .model-category:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.3);
+        }
+
+        .category-info h3 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 8px;
+        }
+
+        .category-info .model-count {
+            font-size: 14px;
+            color: #0e7490;
+            font-weight: 500;
+        }
+
+        .category-description {
+            font-size: 16px;
+            color: #164e63;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .model-examples {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .model-tag {
+            padding: 8px 16px;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #0c4a6e;
+        }
+
+        .performance-stats {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 50px;
+        }
+
+        .performance-stats h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 200;
+            color: #0c4a6e;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #0e7490;
+            font-weight: 500;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .primary-btn {
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.4);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 48px rgba(14, 165, 233, 0.6);
+        }
+
+        .secondary-btn {
+            padding: 18px 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            color: #0c4a6e;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .screenshot-section {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .phone-container {
+            position: relative;
+            filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.2));
+        }
+
+        .phone-mockup {
+            background: linear-gradient(145deg, #e0f7fa, #b2ebf2);
+            border-radius: 32px;
+            padding: 12px;
+            width: 320px;
+            height: 640px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.1));
+            border-radius: 32px;
+            pointer-events: none;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+        }
+
+        .phone-screenshot {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .floating-badge {
+            position: absolute;
+            top: -20px;
+            right: -30px;
+            background: linear-gradient(135deg, #7c3aed, #6366f1);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 12px 48px rgba(124, 58, 237, 0.6);
+            }
+        }
+
+        .tech-highlight {
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            padding: 24px;
+            max-width: 280px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .tech-highlight h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0c4a6e;
+            margin-bottom: 8px;
+        }
+
+        .tech-highlight p {
+            font-size: 14px;
+            color: #164e63;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+                gap: 80px;
+                text-align: center;
+            }
+
+            .main-title {
+                font-size: 64px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px 40px;
+            }
+
+            .back-navigation {
+                left: 40px;
+            }
+
+            .main-title {
+                font-size: 48px;
+                letter-spacing: -2px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .phone-mockup {
+                width: 280px;
+                height: 560px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-navigation">
+            <a href="index.html" class="back-btn">
+                ← Back to Home
+            </a>
+        </div>
+
+        <div class="main-content">
+            <div class="content-left">
+                <div class="page-badge">
+                    ⚡ AI Engine Selection
+                </div>
+                
+                <h1 class="main-title">AI Models</h1>
+                <p class="main-subtitle">
+                    Choose from cutting-edge AI models tailored for different tasks. Switch seamlessly between models for optimal performance.
+                </p>
+                
+                <div class="model-categories">
+                    <div class="model-category">
+                        <div class="category-header">
+                            <div class="category-icon">🧠</div>
+                            <div class="category-info">
+                                <h3>Large Language Models</h3>
+                                <div class="model-count">12 Available Models</div>
+                            </div>
+                        </div>
+                        <p class="category-description">
+                            Advanced conversational AI models for complex reasoning, coding, and creative tasks.
+                        </p>
+                        <div class="model-examples">
+                            <span class="model-tag">GPT-4</span>
+                            <span class="model-tag">Claude</span>
+                            <span class="model-tag">Gemini Pro</span>
+                            <span class="model-tag">Mistral</span>
+                        </div>
+                    </div>
+
+                    <div class="model-category">
+                        <div class="category-header">
+                            <div class="category-icon">🎯</div>
+                            <div class="category-info">
+                                <h3>Specialized Models</h3>
+                                <div class="model-count">8 Available Models</div>
+                            </div>
+                        </div>
+                        <p class="category-description">
+                            Task-specific models optimized for coding, analysis, and specialized domains.
+                        </p>
+                        <div class="model-examples">
+                            <span class="model-tag">Codex</span>
+                            <span class="model-tag">Qwen-Coder</span>
+                            <span class="model-tag">Kimi-K2</span>
+                            <span class="model-tag">GLM-4.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="performance-stats">
+                    <h3>📊 Performance Metrics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">15+</div>
+                            <div class="stat-label">AI Models</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">99.9%</div>
+                            <div class="stat-label">Availability</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">&lt;2s</div>
+                            <div class="stat-label">Response Time</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#models" class="primary-btn">
+                        Browse Models →
+                    </a>
+                    <a href="usage-stats.html" class="secondary-btn">
+                        View Usage
+                    </a>
+                </div>
+            </div>
+            
+            <div class="screenshot-section">
+                <div class="floating-badge">Switch Models</div>
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-screen">
+                            <img src="screenshots/Screenshot_20250808_213506.png" alt="AI model selection interface showing various AI models" class="phone-screenshot">
+                        </div>
+                    </div>
+                    <div class="tech-highlight">
+                        <h4>Dynamic Selection</h4>
+                        <p>Switch between different AI models in real-time based on your specific needs and tasks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

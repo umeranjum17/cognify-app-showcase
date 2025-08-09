@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognify - Chat & Ask AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+            position: relative;
+        }
+
+        .main-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 120px;
+            min-height: 70vh;
+        }
+
+        .content-left {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 200;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .feature-highlight {
+            background: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 40px;
+        }
+
+        .highlight-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        .highlight-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            background: #1a1a1a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .screenshot-section {
+            flex-shrink: 0;
+        }
+
+        .phone-mockup {
+            background: #f8f8f8;
+            border-radius: 28px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            width: 280px;
+            height: 560px;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            border-radius: 22px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .phone-screenshot {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 8px;
+            border-radius: 50px;
+            border: 1px solid #e0e0e0;
+            z-index: 100;
+        }
+
+        .nav-button {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .nav-button:hover {
+            background: #f0f0f0;
+            color: #1a1a1a;
+        }
+
+        .page-indicator {
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            color: #999;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        @media (max-width: 1024px) {
+            .main-section {
+                flex-direction: column;
+                gap: 60px;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px 20px;
+            }
+
+            .section-title {
+                font-size: 36px;
+            }
+
+            .phone-mockup {
+                width: 240px;
+                height: 480px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-section">
+            <div class="content-left">
+                <h1 class="section-title">Chat & Ask AI</h1>
+                <p class="section-subtitle">
+                    Engage in natural conversations with advanced AI. Get detailed explanations with contextual examples and visual aids.
+                </p>
+                
+                <div class="feature-highlight">
+                    <h3 class="highlight-title">Natural Conversations</h3>
+                    <p class="highlight-description">
+                        Chat naturally about any topic. Ask follow-up questions, request clarifications, and dive deeper into subjects that interest you with comprehensive AI assistance.
+                    </p>
+                </div>
+                
+                <a href="#" class="cta-button">
+                    Start Chatting →
+                </a>
+            </div>
+            
+            <div class="screenshot-section">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <img src="screenshots/image copy 4.png" alt="Chat AI Interface" class="phone-screenshot">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <a href="upload-files.html" class="nav-button">←</a>
+        <div class="page-indicator">5 / 5</div>
+        <a href="index.html" class="nav-button">⌂</a>
+    </div>
+</body>
+</html>
