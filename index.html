@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cognify - AI Assistant App</title>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -16,318 +15,182 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
             background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
             color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* Header Navigation for Web */
-        .web-nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(26, 26, 26, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            z-index: 999;
-            padding: 15px 0;
-            display: none;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            height: 100vh;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            position: relative;
         }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            color: white;
+        /* Header */
+        .header {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 100;
         }
 
-        .nav-logo img {
+        .logo {
             width: 40px;
             height: 40px;
             border-radius: 10px;
+            margin-bottom: 8px;
         }
 
-        .nav-logo span {
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-link:hover {
-            color: #f59e0b;
-        }
-
-        .nav-cta {
-            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-            color: #1a1a1a;
-            padding: 10px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
-        }
-
-        /* Footer for Web */
-        .web-footer {
-            background: rgba(26, 26, 26, 0.95);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px 0;
-            text-align: center;
-            display: none;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-
-        .footer-link {
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-
-        .footer-link:hover {
-            color: #f59e0b;
-        }
-
-        .footer-copyright {
-            color: rgba(255, 255, 255, 0.4);
-            font-size: 13px;
-        }
-
-        .app-showcase {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            position: relative;
-        }
-
-        .app-header {
-            text-align: center;
-            margin-bottom: 60px;
-            z-index: 10;
-        }
-
-        .app-logo {
-            width: 64px;
-            height: 64px;
-            margin: 0 auto 24px;
-            display: block;
-            border-radius: 16px;
-        }
-
-        .app-title {
-            font-size: 48px;
+        .app-name {
+            font-size: 24px;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 8px;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
 
-        .app-subtitle {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 400;
+        .tagline {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
         }
 
-        .slider-container {
+        /* Slider Container */
+        .slider-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 80px 20px;
+        }
+
+        .slider {
             position: relative;
             width: 100%;
-            max-width: 1400px;
-            min-height: 600px;
+            max-width: 1200px;
+            height: 100%;
+            max-height: 600px;
             overflow: hidden;
-            border-radius: 24px;
+            border-radius: 20px;
             background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Slides */
+        .slides-container {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
         }
 
         .slide {
-            display: none;
-            width: 100%;
+            min-width: 100%;
             height: 100%;
-            padding: 60px 40px;
-            text-align: center;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            position: relative;
-        }
-
-        .slide.active {
-            display: flex;
-            animation: slideIn 0.8s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { 
-                opacity: 0; 
-                transform: translateX(30px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateX(0); 
-            }
+            justify-content: center;
+            padding: 40px;
         }
 
         .slide-content {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 60px;
             width: 100%;
-            max-width: 1200px;
-            gap: 80px;
+            max-width: 1000px;
         }
 
-        .slide-text {
+        .text-section {
             flex: 1;
-            text-align: left;
             max-width: 400px;
         }
 
-        .slide-badge {
+        .badge {
             display: inline-block;
             background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
             color: #1a1a1a;
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 50px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .slide-title {
-            font-size: 42px;
+            font-size: 32px;
             font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 16px;
-            letter-spacing: -1px;
-            line-height: 1.1;
+            margin-bottom: 12px;
+            line-height: 1.2;
         }
 
-        .slide-description {
-            font-size: 18px;
+        .slide-desc {
+            font-size: 16px;
             color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            font-weight: 400;
-            margin-bottom: 32px;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
-        .slide-features {
+        .features {
             list-style: none;
         }
 
-        .slide-features li {
+        .features li {
+            font-size: 14px;
             color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
             margin-bottom: 8px;
-            display: flex;
-            align-items: center;
+            padding-left: 20px;
+            position: relative;
         }
 
-        .slide-features li::before {
+        .features li::before {
             content: "✓";
+            position: absolute;
+            left: 0;
             color: #f59e0b;
             font-weight: bold;
-            margin-right: 12px;
-            font-size: 14px;
         }
 
-        .phone-container {
+        .phone-section {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .phone-mockup {
-            background: linear-gradient(145deg, #1a1a1a 0%, #2a2a2a 100%);
-            border-radius: 32px;
-            padding: 8px;
-            width: 300px;
-            height: 600px;
+        .phone {
+            background: #000;
+            border-radius: 24px;
+            padding: 6px;
+            width: 240px;
+            height: 480px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             position: relative;
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.1),
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: all 0.4s ease;
         }
 
-        .phone-mockup:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                0 0 0 1px rgba(255, 255, 255, 0.15),
-                0 30px 80px rgba(0, 0, 0, 0.5),
-                0 12px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .phone-mockup::before {
+        .phone::before {
             content: '';
             position: absolute;
-            top: 20px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 4px;
-            background: #555;
+            width: 40px;
+            height: 3px;
+            background: #333;
             border-radius: 2px;
-            z-index: 2;
         }
 
-        .phone-screen {
+        .screen {
             width: 100%;
             height: 100%;
-            border-radius: 28px;
+            border-radius: 20px;
             overflow: hidden;
-            background: #000;
         }
 
         .screenshot {
@@ -336,493 +199,311 @@
             object-fit: cover;
         }
 
-        .slider-nav {
-            text-align: center;
-            margin-top: 40px;
-            z-index: 10;
-        }
-
-        .nav-dots {
-            display: inline-flex;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .nav-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .nav-dot:hover {
-            background: rgba(245, 158, 11, 0.3);
-            transform: scale(1.1);
-        }
-
-        .nav-dot.active {
-            background: #f59e0b;
-            transform: scale(1.2);
-            border-color: rgba(245, 158, 11, 0.3);
-        }
-
-        .nav-buttons {
+        /* Navigation */
+        .nav-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             display: flex;
-            justify-content: center;
+            align-items: center;
             gap: 20px;
+            z-index: 100;
         }
 
         .nav-btn {
-            padding: 14px 28px;
-            background: rgba(245, 158, 11, 0.1);
-            border: 2px solid rgba(245, 158, 11, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 8px 16px;
             border-radius: 50px;
-            color: #f59e0b;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            font-size: 14px;
+            transition: all 0.3s;
         }
 
-        .nav-btn:hover {
+        .nav-btn:hover:not(:disabled) {
             background: rgba(245, 158, 11, 0.2);
             border-color: #f59e0b;
-            transform: translateY(-2px);
         }
 
         .nav-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
-            transform: none;
         }
 
-        /* Export Controls */
-        .export-controls {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
+        .dots {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .export-btn {
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-            border: none;
-            border-radius: 50px;
-            color: #1a1a1a;
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            transition: all 0.3s;
         }
 
-        .export-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+        .dot.active {
+            background: #f59e0b;
+            transform: scale(1.2);
         }
 
-        .export-all-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .export-all-btn:hover {
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Screenshot Modal */
-        .screenshot-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .screenshot-modal.show {
-            display: flex;
-        }
-
-        .screenshot-content {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 90%;
-            max-height: 90%;
-            overflow: auto;
-            text-align: center;
-        }
-
-        .screenshot-preview {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .screenshot-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .screenshot-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .download-btn {
-            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-            color: #1a1a1a;
-        }
-
-        .close-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .screenshot-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Loading indicator */
-        .loading {
-            display: none;
-            position: fixed;
+        /* Side Navigation Arrows */
+        .arrow-btn {
+            position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            color: white;
-            padding: 30px 50px;
-            border-radius: 16px;
-            z-index: 3000;
-            font-weight: 600;
-            font-size: 18px;
-            text-align: center;
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .loading::after {
-            content: '';
-            display: block;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
             width: 40px;
             height: 40px;
-            margin: 20px auto 0;
-            border: 3px solid rgba(245, 158, 11, 0.3);
             border-radius: 50%;
-            border-top-color: #f59e0b;
-            animation: spin 1s linear infinite;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .arrow-btn:hover {
+            background: rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
         }
 
-        /* Desktop and Large Screen Optimizations */
-        @media (min-width: 1025px) {
-            .web-nav {
-                display: block;
-            }
-
-            .web-footer {
-                display: block;
-            }
-
-            .app-showcase {
-                padding-top: 100px;
-                padding-bottom: 60px;
-            }
-
-            .slider-container {
-                min-height: 700px;
-            }
-
-            .slide-content {
-                gap: 100px;
-            }
-
-            .slide-title {
-                font-size: 48px;
-            }
-
-            .slide-description {
-                font-size: 20px;
-                line-height: 1.7;
-            }
-
-            .phone-mockup {
-                width: 320px;
-                height: 640px;
-            }
-
-            .export-controls {
-                top: 80px;
-            }
+        .arrow-btn.prev {
+            left: 20px;
         }
 
-        @media (min-width: 1440px) {
-            .slider-container {
-                max-width: 1600px;
-                min-height: 750px;
-            }
+        .arrow-btn.next {
+            right: 20px;
+        }
 
-            .slide-content {
-                max-width: 1400px;
-            }
+        /* Privacy Link */
+        .privacy-link {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 12px;
+            transition: color 0.3s;
+            z-index: 100;
+        }
 
-            .slide-title {
-                font-size: 52px;
-            }
-
-            .phone-mockup {
-                width: 340px;
-                height: 680px;
-            }
+        .privacy-link:hover {
+            color: #f59e0b;
         }
 
         /* Responsive Design */
-        @media (max-width: 1024px) {
-            .slide-content {
-                flex-direction: column;
-                gap: 40px;
-                text-align: center;
-            }
-
-            .slide-text {
-                text-align: center;
-                max-width: 600px;
-            }
-
-            .slide-title {
-                font-size: 36px;
-            }
-
-            .phone-mockup {
-                width: 280px;
-                height: 560px;
-            }
-
-            .export-controls {
-                position: fixed;
-                top: 20px;
-                right: 20px;
-            }
-        }
-
         @media (max-width: 768px) {
-            .app-showcase {
-                padding: 30px 15px;
-                height: auto;
-                min-height: 100vh;
+            .header {
+                top: 15px;
             }
 
-            .app-title {
-                font-size: 36px;
+            .app-name {
+                font-size: 20px;
             }
 
-            .slider-container {
-                height: auto;
-                min-height: 70vh;
+            .slider-wrapper {
+                padding: 70px 15px 70px 15px;
             }
 
             .slide {
-                padding: 40px 20px;
+                padding: 20px;
+            }
+
+            .slide-content {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .text-section {
+                max-width: 100%;
             }
 
             .slide-title {
-                font-size: 28px;
+                font-size: 24px;
             }
 
-            .slide-description {
+            .slide-desc {
+                font-size: 14px;
+            }
+
+            .features li {
+                font-size: 13px;
+                text-align: left;
+            }
+
+            .phone {
+                width: 200px;
+                height: 400px;
+            }
+
+            .arrow-btn {
+                width: 35px;
+                height: 35px;
                 font-size: 16px;
             }
 
-            .phone-mockup {
-                width: 260px;
-                height: 520px;
+            .arrow-btn.prev {
+                left: 10px;
             }
 
-            .nav-dots {
-                gap: 12px;
+            .arrow-btn.next {
+                right: 10px;
             }
 
-            .nav-dot {
-                width: 12px;
-                height: 12px;
+            .nav-btn {
+                padding: 6px 12px;
+                font-size: 12px;
             }
 
-            .export-controls {
-                flex-direction: column;
-                gap: 8px;
-            }
-
-            .export-btn {
-                padding: 10px 16px;
-                font-size: 13px;
+            .privacy-link {
+                bottom: 10px;
+                right: 10px;
             }
         }
 
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        @media (min-width: 1024px) {
+            .header {
+                top: 30px;
+            }
+
+            .app-name {
+                font-size: 28px;
+            }
+
+            .slide-title {
+                font-size: 36px;
+            }
+
+            .slide-desc {
+                font-size: 18px;
+            }
+
+            .phone {
+                width: 280px;
+                height: 560px;
+            }
+        }
+
+        /* Touch/Swipe Support */
+        .slider {
+            touch-action: pan-y pinch-zoom;
         }
     </style>
 </head>
 <body>
-    <!-- Web Navigation -->
-    <nav class="web-nav">
-        <div class="nav-container">
-            <a href="#" class="nav-logo">
-                <img src="cognify_robot_512x512.png" alt="Cognify Logo">
-                <span>Cognify</span>
-            </a>
-            <div class="nav-menu">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#ai-chat" class="nav-link">AI Chat</a>
-                <a href="#models" class="nav-link">Models</a>
-                <a href="#analytics" class="nav-link">Analytics</a>
-                <a href="privacy-policy.html" class="nav-link">Privacy</a>
-                <a href="#download" class="nav-cta">Download App</a>
-            </div>
-        </div>
-    </nav>
-    <!-- Export Controls -->
-    <div class="export-controls">
-        <button class="export-btn" onclick="exportCurrentSlide()">📸 Export Current</button>
-        <button class="export-btn export-all-btn" onclick="exportAllSlides()">📦 Export All</button>
-    </div>
-
-    <div class="app-showcase">
-        <!-- App Header -->
-        <div class="app-header">
-            <img src="cognify_robot_512x512.png" alt="Cognify Logo" class="app-logo">
-            <h1 class="app-title">Cognify</h1>
-            <p class="app-subtitle">AI Assistant App</p>
+    <div class="main-container">
+        <!-- Header -->
+        <div class="header">
+            <img src="cognify_robot_512x512.png" alt="Cognify" class="logo">
+            <div class="app-name">Cognify</div>
+            <div class="tagline">AI Assistant App</div>
         </div>
 
-        <!-- Feature Slider -->
-        <div class="slider-container">
-            <!-- Slide 1: Chat AI -->
-            <div class="slide slide-1 active" id="ai-chat">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <div class="slide-badge">Chat AI</div>
-                        <h2 class="slide-title">Intelligent Conversations</h2>
-                        <p class="slide-description">
-                            Experience natural conversations with advanced AI that understands context and provides comprehensive answers about any topic.
-                        </p>
-                        <ul class="slide-features">
-                            <li>Real-time AI responses</li>
-                            <li>Context-aware conversations</li>
-                            <li>Multi-format responses</li>
-                            <li>Image and text generation</li>
-                        </ul>
-                    </div>
-                    <div class="phone-container">
-                        <div class="phone-mockup">
-                            <div class="phone-screen">
-                                <img src="Screenshot_20250808_213934.png" alt="AI Chat Interface" class="screenshot">
+        <!-- Slider -->
+        <div class="slider-wrapper">
+            <div class="slider">
+                <button class="arrow-btn prev" onclick="changeSlide(-1)">‹</button>
+                <button class="arrow-btn next" onclick="changeSlide(1)">›</button>
+                
+                <div class="slides-container" id="slidesContainer">
+                    <!-- Slide 1: Chat AI -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div class="text-section">
+                                <span class="badge">Chat AI</span>
+                                <h2 class="slide-title">Intelligent Conversations</h2>
+                                <p class="slide-desc">Experience natural conversations with advanced AI that understands context and provides comprehensive answers.</p>
+                                <ul class="features">
+                                    <li>Real-time AI responses</li>
+                                    <li>Context-aware conversations</li>
+                                    <li>Multi-format responses</li>
+                                </ul>
+                            </div>
+                            <div class="phone-section">
+                                <div class="phone">
+                                    <div class="screen">
+                                        <img src="Screenshot_20250808_213934.png" alt="Chat AI" class="screenshot">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Slide 2: File Processing -->
-            <div class="slide slide-2" id="features">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <div class="slide-badge">File Processing</div>
-                        <h2 class="slide-title">Smart File Analysis</h2>
-                        <p class="slide-description">
-                            Upload any file format and get intelligent insights, summaries, and analysis powered by advanced AI models.
-                        </p>
-                        <ul class="slide-features">
-                            <li>Support for all file types</li>
-                            <li>Intelligent document analysis</li>
-                            <li>Extract key information</li>
-                            <li>Generate summaries</li>
-                        </ul>
-                    </div>
-                    <div class="phone-container">
-                        <div class="phone-mockup">
-                            <div class="phone-screen">
-                                <img src="screenshots/Screenshot_20250808_213604.png" alt="File Processing" class="screenshot">
+                    <!-- Slide 2: File Processing -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div class="text-section">
+                                <span class="badge">File Processing</span>
+                                <h2 class="slide-title">Smart File Analysis</h2>
+                                <p class="slide-desc">Upload any file format and get intelligent insights, summaries, and analysis powered by AI.</p>
+                                <ul class="features">
+                                    <li>Support for all file types</li>
+                                    <li>Intelligent document analysis</li>
+                                    <li>Extract key information</li>
+                                </ul>
+                            </div>
+                            <div class="phone-section">
+                                <div class="phone">
+                                    <div class="screen">
+                                        <img src="screenshots/Screenshot_20250808_213604.png" alt="File Processing" class="screenshot">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Slide 3: Model Selection -->
-            <div class="slide slide-3" id="models">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <div class="slide-badge">AI Models</div>
-                        <h2 class="slide-title">Choose Your AI Engine</h2>
-                        <p class="slide-description">
-                            Switch between 300+ premium AI models optimized for different tasks and use cases.
-                        </p>
-                        <ul class="slide-features">
-                            <li>300+ AI models available</li>
-                            <li>Task-optimized engines</li>
-                            <li>Easy model switching</li>
-                        </ul>
-                    </div>
-                    <div class="phone-container">
-                        <div class="phone-mockup">
-                            <div class="phone-screen">
-                                <img src="screenshots/Screenshot_20250808_213506.png" alt="Model Selection" class="screenshot">
+                    <!-- Slide 3: Model Selection -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div class="text-section">
+                                <span class="badge">AI Models</span>
+                                <h2 class="slide-title">Choose Your AI Engine</h2>
+                                <p class="slide-desc">Switch between 300+ premium AI models optimized for different tasks and use cases.</p>
+                                <ul class="features">
+                                    <li>300+ AI models available</li>
+                                    <li>Task-optimized engines</li>
+                                    <li>Easy model switching</li>
+                                </ul>
+                            </div>
+                            <div class="phone-section">
+                                <div class="phone">
+                                    <div class="screen">
+                                        <img src="screenshots/Screenshot_20250808_213506.png" alt="Model Selection" class="screenshot">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- Slide 4: Usage Analytics -->
-            <div class="slide slide-4" id="analytics">
-                <div class="slide-content">
-                    <div class="slide-text">
-                        <div class="slide-badge">Analytics</div>
-                        <h2 class="slide-title">Usage Insights</h2>
-                        <p class="slide-description">
-                            Track your AI usage, costs, and performance with detailed analytics and insights.
-                        </p>
-                        <ul class="slide-features">
-                            <li>Real-time cost tracking</li>
-                            <li>Usage analytics</li>
-                            <li>Performance metrics</li>
-                            <li>Budget management</li>
-                        </ul>
-                    </div>
-                    <div class="phone-container">
-                        <div class="phone-mockup">
-                            <div class="phone-screen">
-                                <img src="screenshots/Screenshot_20250808_213526.png" alt="Usage Analytics" class="screenshot">
+                    <!-- Slide 4: Usage Analytics -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <div class="text-section">
+                                <span class="badge">Analytics</span>
+                                <h2 class="slide-title">Usage Insights</h2>
+                                <p class="slide-desc">Track your AI usage, costs, and performance with detailed analytics and insights.</p>
+                                <ul class="features">
+                                    <li>Real-time cost tracking</li>
+                                    <li>Usage analytics</li>
+                                    <li>Budget management</li>
+                                </ul>
+                            </div>
+                            <div class="phone-section">
+                                <div class="phone">
+                                    <div class="screen">
+                                        <img src="screenshots/Screenshot_20250808_213526.png" alt="Usage Analytics" class="screenshot">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -830,404 +511,87 @@
             </div>
         </div>
 
-        <!-- Navigation -->
-        <div class="slider-nav">
-            <div class="nav-dots">
-                <div class="nav-dot active" onclick="goToSlide(0)"></div>
-                <div class="nav-dot" onclick="goToSlide(1)"></div>
-                <div class="nav-dot" onclick="goToSlide(2)"></div>
-                <div class="nav-dot" onclick="goToSlide(3)"></div>
+        <!-- Navigation Controls -->
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="changeSlide(-1)">Previous</button>
+            <div class="dots">
+                <span class="dot active" onclick="goToSlide(0)"></span>
+                <span class="dot" onclick="goToSlide(1)"></span>
+                <span class="dot" onclick="goToSlide(2)"></span>
+                <span class="dot" onclick="goToSlide(3)"></span>
             </div>
-            <div class="nav-buttons">
-                <button class="nav-btn" id="prevBtn" onclick="prevSlide()">← Previous</button>
-                <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
-            </div>
+            <button class="nav-btn" onclick="changeSlide(1)">Next</button>
         </div>
-    </div>
 
-    <!-- Screenshot Modal -->
-    <div class="screenshot-modal" id="screenshotModal">
-        <div class="screenshot-content">
-            <img id="screenshotPreview" class="screenshot-preview" alt="Screenshot Preview">
-            <div class="screenshot-actions">
-                <button class="screenshot-btn download-btn" onclick="downloadScreenshot()">💾 Download PNG</button>
-                <button class="screenshot-btn close-btn" onclick="closeScreenshotModal()">✕ Close</button>
-            </div>
-        </div>
+        <!-- Privacy Link -->
+        <a href="privacy-policy.html" class="privacy-link">Privacy Policy</a>
     </div>
-
-    <!-- Loading Indicator -->
-    <div class="loading" id="loadingIndicator">
-        Generating screenshot...
-    </div>
-
-    <!-- Web Footer -->
-    <footer class="web-footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#features" class="footer-link">Features</a>
-                <a href="#support" class="footer-link">Support</a>
-                <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
-                <a href="#contact" class="footer-link">Contact</a>
-            </div>
-            <div class="footer-copyright">
-                © 2025 Cognify. All rights reserved.
-            </div>
-        </div>
-    </footer>
 
     <script>
         let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.nav-dot');
-        const totalSlides = slides.length;
-        let currentScreenshot = null;
+        const totalSlides = 4;
+        const slidesContainer = document.getElementById('slidesContainer');
+        const dots = document.querySelectorAll('.dot');
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-        function showSlide(index) {
-            // Hide all slides
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
+        function updateSlider() {
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
             
-            // Show current slide
-            slides[index].classList.add('active');
-            dots[index].classList.add('active');
-            
-            // Update navigation buttons
-            document.getElementById('prevBtn').disabled = index === 0;
-            document.getElementById('nextBtn').disabled = index === totalSlides - 1;
-            
-            currentSlide = index;
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+
+            // Update button states
+            document.querySelectorAll('.nav-btn')[0].disabled = currentSlide === 0;
+            document.querySelectorAll('.nav-btn')[1].disabled = currentSlide === totalSlides - 1;
+            document.querySelector('.arrow-btn.prev').style.opacity = currentSlide === 0 ? '0.3' : '1';
+            document.querySelector('.arrow-btn.next').style.opacity = currentSlide === totalSlides - 1 ? '0.3' : '1';
+        }
+
+        function changeSlide(direction) {
+            const newSlide = currentSlide + direction;
+            if (newSlide >= 0 && newSlide < totalSlides) {
+                currentSlide = newSlide;
+                updateSlider();
+            }
         }
 
         function goToSlide(index) {
-            showSlide(index);
-        }
-
-        function nextSlide() {
-            if (currentSlide < totalSlides - 1) {
-                showSlide(currentSlide + 1);
-            }
-        }
-
-        function prevSlide() {
-            if (currentSlide > 0) {
-                showSlide(currentSlide - 1);
-            }
-        }
-
-        // Screenshot functionality
-        async function captureSlide(slideIndex) {
-            console.log(`Starting capture of slide ${slideIndex + 1}`);
-            
-            // Get slide elements
-            const targetSlide = slides[slideIndex];
-            const slideTitle = targetSlide.querySelector('.slide-title').textContent;
-            
-            // Hide export controls during capture
-            const exportControls = document.querySelector('.export-controls');
-            const originalDisplay = exportControls.style.display;
-            exportControls.style.display = 'none';
-            
-            // Force show the specific slide we want to capture
-            slides.forEach((slide, index) => {
-                if (index === slideIndex) {
-                    slide.classList.add('active');
-                    slide.style.display = 'flex';
-                    slide.style.opacity = '1';
-                    slide.style.transform = 'translateX(0)';
-                } else {
-                    slide.classList.remove('active');
-                    slide.style.display = 'none';
-                }
-            });
-            
-            // Update navigation dots to match
-            dots.forEach((dot, index) => {
-                if (index === slideIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-            
-            // Wait longer for slide transition and content to settle
-            await new Promise(resolve => setTimeout(resolve, 1200));
-            
-            try {
-                // Ensure all images in the active slide are loaded
-                const images = targetSlide.querySelectorAll('img');
-                console.log(`Found ${images.length} images to load in slide ${slideIndex + 1}`);
-                
-                await Promise.all(Array.from(images).map((img, imgIndex) => {
-                    if (img.complete && img.naturalWidth > 0) {
-                        console.log(`Image ${imgIndex + 1} already loaded`);
-                        return Promise.resolve();
-                    }
-                    return new Promise((resolve) => {
-                        img.onload = () => {
-                            console.log(`Image ${imgIndex + 1} loaded successfully`);
-                            resolve();
-                        };
-                        img.onerror = () => {
-                            console.warn(`Image ${imgIndex + 1} failed to load:`, img.src);
-                            resolve(); // Continue anyway
-                        };
-                        // Force reload if needed
-                        const originalSrc = img.src;
-                        img.src = '';
-                        img.src = originalSrc;
-                        // Timeout fallback
-                        setTimeout(() => {
-                            console.log(`Image ${imgIndex + 1} load timeout`);
-                            resolve();
-                        }, 3000);
-                    });
-                }));
-                
-                console.log(`All images loaded for slide ${slideIndex + 1}, starting capture...`);
-                
-                // Get the entire app showcase container for better quality
-                const container = document.querySelector('.app-showcase');
-                
-                // High-quality capture options optimized for App Store
-                let canvas;
-                try {
-                    canvas = await html2canvas(container, {
-                        backgroundColor: '#1a1a1a', // Use solid background for consistency
-                        scale: 2, // Reduced scale for better compatibility
-                        useCORS: true,
-                        allowTaint: true,
-                        logging: true, // Enable logging for debugging
-                        width: container.offsetWidth,
-                        height: container.offsetHeight,
-                        foreignObjectRendering: false, // Disable for better compatibility
-                        imageTimeout: 10000, // Longer timeout
-                        onclone: function(clonedDoc) {
-                            console.log('Cloning document for capture...');
-                            // Ensure the correct slide is visible in clone
-                            const clonedSlides = clonedDoc.querySelectorAll('.slide');
-                            const clonedDots = clonedDoc.querySelectorAll('.nav-dot');
-                            
-                            clonedSlides.forEach((slide, index) => {
-                                if (index === slideIndex) {
-                                    slide.classList.add('active');
-                                    slide.style.display = 'flex';
-                                    slide.style.opacity = '1';
-                                    slide.style.transform = 'translateX(0)';
-                                    slide.style.animation = 'none';
-                                } else {
-                                    slide.classList.remove('active');
-                                    slide.style.display = 'none';
-                                }
-                            });
-                            
-                            clonedDots.forEach((dot, index) => {
-                                if (index === slideIndex) {
-                                    dot.classList.add('active');
-                                } else {
-                                    dot.classList.remove('active');
-                                }
-                            });
-                            
-                            // Hide export controls in clone
-                            const clonedExportControls = clonedDoc.querySelector('.export-controls');
-                            if (clonedExportControls) {
-                                clonedExportControls.style.display = 'none';
-                            }
-                        }
-                    });
-                } catch (html2canvasError) {
-                    console.warn('High-quality capture failed, trying simple fallback:', html2canvasError);
-                    // Simple fallback
-                    canvas = await html2canvas(targetSlide, {
-                        backgroundColor: '#1a1a1a',
-                        scale: 1.5,
-                        useCORS: true,
-                        allowTaint: true,
-                        logging: true
-                    });
-                }
-                
-                console.log(`Successfully captured slide ${slideIndex + 1}`);
-                
-                // Restore export controls
-                exportControls.style.display = originalDisplay;
-                
-                return {
-                    canvas: canvas,
-                    title: slideTitle,
-                    index: slideIndex
-                };
-            } catch (error) {
-                console.error(`Screenshot capture failed for slide ${slideIndex + 1}:`, error);
-                // Restore export controls even on error
-                exportControls.style.display = originalDisplay;
-                return null;
-            }
-        }
-
-        async function exportCurrentSlide() {
-            showLoading(true);
-            
-            try {
-                const result = await captureSlide(currentSlide);
-                if (result) {
-                    currentScreenshot = result;
-                    showScreenshotModal(result.canvas.toDataURL('image/png', 1.0)); // Maximum quality
-                    // Restore original slide
-                    showSlide(result.originalSlide);
-                }
-            } catch (error) {
-                console.error('Export failed:', error);
-                alert('Export failed: ' + error.message);
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        async function exportAllSlides() {
-            const originalSlide = currentSlide;
-            showLoading(true);
-            
-            try {
-                const screenshots = [];
-                for (let i = 0; i < totalSlides; i++) {
-                    console.log(`Capturing slide ${i + 1} of ${totalSlides}...`);
-                    const result = await captureSlide(i);
-                    if (result) {
-                        screenshots.push(result);
-                    }
-                    // Longer delay between captures for better quality
-                    await new Promise(resolve => setTimeout(resolve, 600));
-                }
-                
-                // Restore original slide
-                showSlide(originalSlide);
-                
-                // Download all screenshots with staggered timing
-                if (screenshots.length > 0) {
-                    downloadAllScreenshots(screenshots);
-                    alert(`Successfully exported ${screenshots.length} high-quality App Store screenshots!`);
-                } else {
-                    alert('No screenshots were captured. Please check your images and try again.');
-                }
-            } catch (error) {
-                console.error('Batch export failed:', error);
-                alert('Batch export failed: ' + error.message);
-                // Restore original slide even on error
-                showSlide(originalSlide);
-            } finally {
-                showLoading(false);
-            }
-        }
-
-        function showScreenshotModal(dataUrl) {
-            const modal = document.getElementById('screenshotModal');
-            const preview = document.getElementById('screenshotPreview');
-            
-            preview.src = dataUrl;
-            modal.classList.add('show');
-        }
-
-        function closeScreenshotModal() {
-            const modal = document.getElementById('screenshotModal');
-            modal.classList.remove('show');
-            currentScreenshot = null;
-        }
-
-        function downloadScreenshot() {
-            if (currentScreenshot) {
-                try {
-                    const link = document.createElement('a');
-                    const fileName = `cognify-app-store-${currentScreenshot.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-slide-${currentScreenshot.index + 1}-hq.png`;
-                    link.download = fileName;
-                    link.href = currentScreenshot.canvas.toDataURL('image/png', 1.0); // Maximum quality
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    
-                    // Show success message
-                    setTimeout(() => {
-                        alert('High-quality App Store screenshot downloaded successfully!');
-                    }, 100);
-                } catch (error) {
-                    console.error('Download failed:', error);
-                    alert('Download failed: ' + error.message);
-                }
-            }
-        }
-
-        function downloadAllScreenshots(screenshots) {
-            screenshots.forEach((screenshot, index) => {
-                setTimeout(() => {
-                    try {
-                        const link = document.createElement('a');
-                        const fileName = `cognify-app-store-${screenshot.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-slide-${screenshot.index + 1}-hq.png`;
-                        link.download = fileName;
-                        link.href = screenshot.canvas.toDataURL('image/png', 1.0); // Maximum quality
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                        
-                        console.log(`Downloaded: ${fileName}`);
-                    } catch (error) {
-                        console.error('Download failed for slide', index + 1, error);
-                    }
-                }, index * 300); // Stagger downloads more to avoid browser limits
-            });
-        }
-
-        function showLoading(show) {
-            const loading = document.getElementById('loadingIndicator');
-            loading.style.display = show ? 'block' : 'none';
-        }
-
-        // Preload images to ensure they're available for capture
-        function preloadImages() {
-            const imageUrls = [
-                'cognify_robot_512x512.png',
-                'Screenshot_20250808_213934.png',
-                'screenshots/Screenshot_20250808_213547.png',
-                'screenshots/Screenshot_20250808_213506.png',
-                'screenshots/Screenshot_20250808_213526.png'
-            ];
-            
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-            });
+            currentSlide = index;
+            updateSlider();
         }
 
         // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight') {
-                nextSlide();
-            } else if (e.key === 'ArrowLeft') {
-                prevSlide();
-            } else if (e.key === 'Escape') {
-                closeScreenshotModal();
-            }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
         });
 
-        // Close modal when clicking outside
-        document.getElementById('screenshotModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeScreenshotModal();
-            }
+        // Touch/Swipe support
+        slidesContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
         });
+
+        slidesContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) changeSlide(1); // Swipe left
+            if (touchEndX > touchStartX + 50) changeSlide(-1); // Swipe right
+        }
+
+        // Auto-play (optional - commented out by default)
+        // setInterval(() => {
+        //     currentSlide = (currentSlide + 1) % totalSlides;
+        //     updateSlider();
+        // }, 5000);
 
         // Initialize
-        showSlide(0);
-        preloadImages();
-
-        // Auto-advance with longer interval for better UX
-        setInterval(() => {
-            if (currentSlide < totalSlides - 1) {
-                nextSlide();
-            } else {
-                showSlide(0);
-            }
-        }, 8000);
+        updateSlider();
     </script>
 </body>
 </html>
