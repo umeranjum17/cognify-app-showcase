@@ -140,6 +140,7 @@
             line-height: 1.1;
             margin-bottom: 24px;
             background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #94a3b8 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -575,6 +576,94 @@
             display: inline-block;
         }
 
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 24px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            width: 100%;
+            max-width: 820px;
+            border-radius: 16px;
+            background: #0f0f10;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            overflow: hidden;
+            position: relative;
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .modal-title {
+            margin: 0;
+            font-size: 18px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .modal-close {
+            background: transparent;
+            border: 0;
+            color: #fff;
+            font-size: 22px;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        .modal-close:hover { opacity: 1; }
+        .modal-body { padding: 0; }
+        .modal-iframe-wrapper {
+            position: relative;
+            width: 100%;
+            height: 72vh;
+            min-height: 560px;
+            background: #101010;
+        }
+        @media (max-width: 640px) {
+            .modal-iframe-wrapper { height: 82vh; min-height: 520px; }
+        }
+        .modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+        .modal-skeleton {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.75);
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+        .modal-iframe-wrapper.loaded .modal-skeleton {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 300ms ease-in-out;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .no-scroll { overflow: hidden; }
+
         /* Footer */
         .footer {
             padding: 60px 40px 40px;
@@ -765,6 +854,27 @@
         </div>
     </section>
 
+    <!-- Waitlist Modal -->
+    <div id="waitlist-modal" class="modal-overlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="waitlist-modal-title">
+            <div class="modal-header">
+                <h3 id="waitlist-modal-title" class="modal-title">Join the Waitlist</h3>
+                <button type="button" class="modal-close" aria-label="Close">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-iframe-wrapper">
+                    <div class="modal-skeleton">Loading form…</div>
+                    <iframe
+                        class="modal-iframe"
+                        data-src="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform?embedded=true"
+                        allow="clipboard-read; clipboard-write"
+                        referrerpolicy="no-referrer">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="features-container">
@@ -931,15 +1041,9 @@
                 Get priority access, exclusive previews, and special launch pricing.
             </p>
             
-            <!-- Google Forms Integration - Replace with your actual Google Form URL -->
+            <!-- Waitlist trigger opens modal with embedded Google Form -->
             <div class="waitlist-form">
-                <form id="waitlist-form" action="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/formResponse" method="POST" target="_blank">
-                    <div class="form-group">
-                        <input type="email" name="entry.1045781291" class="form-input" placeholder="Enter your email address" required>
-                        <input type="text" name="entry.839337160" class="form-input" placeholder="Your name (optional)">
-                        <button type="submit" class="form-submit">Join Waitlist</button>
-                    </div>
-                </form>
+                <button type="button" class="form-submit" id="open-waitlist-modal">Join Waitlist</button>
                 <p style="font-size: 14px; color: rgba(255, 255, 255, 0.6); margin-top: 16px;">
                     We respect your privacy. Unsubscribe at any time.
                 </p>
@@ -1018,34 +1122,58 @@
             lastScrollY = currentScrollY;
         });
 
-        // Form submission handling
-        document.getElementById('waitlist-form').addEventListener('submit', function(e) {
-            const email = this.querySelector('input[type="email"]').value;
-            
-            if (!email) {
-                e.preventDefault();
-                alert('Please enter your email address');
-                return;
+        // Waitlist modal logic
+        (function () {
+            const modal = document.getElementById('waitlist-modal');
+            const openBtn = document.getElementById('open-waitlist-modal');
+            const closeBtn = modal?.querySelector('.modal-close');
+            const overlay = modal;
+
+            const formFrame = modal?.querySelector('.modal-iframe');
+            const skeletonWrap = modal?.querySelector('.modal-iframe-wrapper');
+            const dataSrc = formFrame?.getAttribute('data-src');
+            let loaded = false;
+            let lastFocus = null;
+
+            function openModal() {
+                if (!modal) return;
+                lastFocus = document.activeElement;
+                document.body.classList.add('no-scroll');
+                modal.classList.add('open');
+                modal.setAttribute('aria-hidden', 'false');
+                if (!loaded && formFrame && dataSrc) {
+                    formFrame.setAttribute('src', dataSrc);
+                }
+                setTimeout(() => closeBtn?.focus(), 50);
             }
-            
-            // Show loading state
-            const submitButton = this.querySelector('.form-submit');
-            const originalText = submitButton.textContent;
-            submitButton.textContent = 'Joining...';
-            submitButton.disabled = true;
-            
-            // Show thank you message after form submission
-            setTimeout(() => {
-                alert('🎉 Thank you for joining the waitlist! We\'ll notify you when early access becomes available.');
-                
-                // Reset form
-                this.reset();
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-            }, 1500);
-            
-            // Allow the form to submit to Google Forms (don't prevent default)
-        });
+
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.remove('open');
+                modal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('no-scroll');
+                if (lastFocus && lastFocus.focus) lastFocus.focus();
+            }
+
+            openBtn?.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+            closeBtn?.addEventListener('click', closeModal);
+            overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal?.classList.contains('open')) closeModal(); });
+
+            // Mark loaded when iframe finishes
+            formFrame?.addEventListener('load', () => {
+                loaded = true;
+                skeletonWrap?.classList.add('loaded');
+            });
+
+            // Make all "#waitlist" CTAs open the modal
+            document.querySelectorAll('a[href="#waitlist"], .header-cta').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+        })();
     </script>
 </body>
 </html>
