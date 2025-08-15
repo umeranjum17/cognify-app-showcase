@@ -631,6 +631,29 @@
             min-height: 560px;
             background: #101010;
         }
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .fallback-hint {
+            margin-right: auto;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            display: none;
+        }
+        .modal.open .fallback-hint.show { display: inline; }
+        .fallback-link {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
         @media (max-width: 640px) {
             .modal-iframe-wrapper { height: 82vh; min-height: 520px; }
         }
@@ -809,10 +832,10 @@
             <nav class="nav-links">
                 <a href="#features">Features</a>
                 <a href="#benefits">Benefits</a>
-                <a href="#waitlist">Join Waitlist</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform" target="_blank" rel="noopener">Join Waitlist</a>
                 <a href="privacy-policy.html">Privacy</a>
             </nav>
-            <a href="#waitlist" class="header-cta">Join Waitlist</a>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform" class="header-cta" target="_blank" rel="noopener">Join Waitlist</a>
         </div>
     </header>
 
@@ -826,7 +849,7 @@
                     Access 300+ AI models, engage in intelligent conversations, and process any file type with the most advanced AI assistant app ever created.
                 </p>
                 <div class="hero-ctas">
-                    <a href="#waitlist" class="primary-btn">Join the Waitlist</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform" class="primary-btn" target="_blank" rel="noopener">Join the Waitlist</a>
                     <a href="#features" class="secondary-btn">Explore Features</a>
                 </div>
                 <div class="hero-stats">
@@ -854,26 +877,14 @@
         </div>
     </section>
 
-    <!-- Waitlist Modal -->
+    <!-- Waitlist Modal (no longer used; kept as comment for reference) -->
+    <!--
     <div id="waitlist-modal" class="modal-overlay" aria-hidden="true">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="waitlist-modal-title">
-            <div class="modal-header">
-                <h3 id="waitlist-modal-title" class="modal-title">Join the Waitlist</h3>
-                <button type="button" class="modal-close" aria-label="Close">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-iframe-wrapper">
-                    <div class="modal-skeleton">Loading form…</div>
-                    <iframe
-                        class="modal-iframe"
-                        data-src="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform?embedded=true"
-                        allow="clipboard-read; clipboard-write"
-                        referrerpolicy="no-referrer">
-                    </iframe>
-                </div>
-            </div>
+            ...
         </div>
     </div>
+    -->
 
     <!-- Features Section -->
     <section class="features" id="features">
@@ -1041,9 +1052,9 @@
                 Get priority access, exclusive previews, and special launch pricing.
             </p>
             
-            <!-- Waitlist trigger opens modal with embedded Google Form -->
+            <!-- Waitlist CTA opens form in a new tab (mobile-friendly, no storage access issues) -->
             <div class="waitlist-form">
-                <button type="button" class="form-submit" id="open-waitlist-modal">Join Waitlist</button>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform" class="form-submit" target="_blank" rel="noopener">Join Waitlist</a>
                 <p style="font-size: 14px; color: rgba(255, 255, 255, 0.6); margin-top: 16px;">
                     We respect your privacy. Unsubscribe at any time.
                 </p>
@@ -1122,55 +1133,16 @@
             lastScrollY = currentScrollY;
         });
 
-        // Waitlist modal logic
+        // Force waitlist links to open the Google Form in a new tab
         (function () {
-            const modal = document.getElementById('waitlist-modal');
-            const openBtn = document.getElementById('open-waitlist-modal');
-            const closeBtn = modal?.querySelector('.modal-close');
-            const overlay = modal;
-
-            const formFrame = modal?.querySelector('.modal-iframe');
-            const skeletonWrap = modal?.querySelector('.modal-iframe-wrapper');
-            const dataSrc = formFrame?.getAttribute('data-src');
-            let loaded = false;
-            let lastFocus = null;
-
-            function openModal() {
-                if (!modal) return;
-                lastFocus = document.activeElement;
-                document.body.classList.add('no-scroll');
-                modal.classList.add('open');
-                modal.setAttribute('aria-hidden', 'false');
-                if (!loaded && formFrame && dataSrc) {
-                    formFrame.setAttribute('src', dataSrc);
-                }
-                setTimeout(() => closeBtn?.focus(), 50);
-            }
-
-            function closeModal() {
-                if (!modal) return;
-                modal.classList.remove('open');
-                modal.setAttribute('aria-hidden', 'true');
-                document.body.classList.remove('no-scroll');
-                if (lastFocus && lastFocus.focus) lastFocus.focus();
-            }
-
-            openBtn?.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-            closeBtn?.addEventListener('click', closeModal);
-            overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
-            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal?.classList.contains('open')) closeModal(); });
-
-            // Mark loaded when iframe finishes
-            formFrame?.addEventListener('load', () => {
-                loaded = true;
-                skeletonWrap?.classList.add('loaded');
-            });
-
-            // Make all "#waitlist" CTAs open the modal
-            document.querySelectorAll('a[href="#waitlist"], .header-cta').forEach(el => {
+            const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe_agHZJLzBV6USQrp3JqbUyCQk0ucBh6kni9ZzzjfqEeBLHg/viewform';
+            document.querySelectorAll('a[href="#waitlist"], .header-cta, .primary-btn').forEach(el => {
                 el.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    openModal();
+                    const href = el.getAttribute('href') || '';
+                    if (href.startsWith('#waitlist')) {
+                        e.preventDefault();
+                        window.open(formUrl, '_blank', 'noopener');
+                    }
                 });
             });
         })();
