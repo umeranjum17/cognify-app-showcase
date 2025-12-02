@@ -169,9 +169,11 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
             box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+            min-width: 210px;
         }
 
         .primary-btn:hover {
@@ -192,13 +194,27 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+            min-width: 210px;
         }
 
         .secondary-btn:hover {
             background: rgba(255, 255, 255, 0.15);
             transform: translateY(-2px);
+        }
+
+        .store-label {
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .store-name {
+            font-size: 20px;
+            font-weight: 600;
         }
 
         .screenshot-section {
@@ -383,11 +399,13 @@
                 </div>
                 
                 <div class="cta-buttons">
-                    <a href="#chat" class="primary-btn">
-                        Start Chatting →
+                    <a href="https://apps.apple.com/ae/app/cognify-ai/id6751293150" class="primary-btn" target="_blank" rel="noopener noreferrer">
+                        <span class="store-label">Download on</span>
+                        <span class="store-name">App Store</span>
                     </a>
-                    <a href="model-selection.html" class="secondary-btn">
-                        Choose AI Model
+                    <a href="https://play.google.com/store/apps/details?id=com.umerfarooq1995.cognify_flutter&pli=1" class="secondary-btn" target="_blank" rel="noopener noreferrer">
+                        <span class="store-label">Get it on</span>
+                        <span class="store-name">Google Play</span>
                     </a>
                 </div>
             </div>
